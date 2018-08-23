@@ -1,0 +1,141 @@
+﻿<helper:MgaXctkWizardPage xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                          xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+                          xmlns:local="clr-namespace:BI_Wizard"
+                          xmlns:helper="clr-namespace:BI_Wizard.Helper"
+                          xmlns:ViewModel="clr-namespace:BI_Wizard.View"
+                          xmlns:viewModel="clr-namespace:BI_Wizard.ViewModel"
+                          x:Class="BI_Wizard.View.Page_03_Ds_V"
+                          mc:Ignorable="d"
+                          d:DesignHeight="500"
+                          d:DesignWidth="900"
+                          Title="Select tables and or views from source."
+                          Description="Select tables and/or views from source database to be used in the data warehouse.">
+    <helper:MgaXctkWizardPage.DataContext>
+        <viewModel:Page_03_Ds_Vm />
+    </helper:MgaXctkWizardPage.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="45" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200*" />
+            <ColumnDefinition Width="200*" />
+        </Grid.ColumnDefinitions>
+        <DataGrid Grid.Row="1"
+                  Grid.Column="0"
+                  IsReadOnly="True"
+                  ItemsSource="{Binding AnalysisM.DsTableViewList}"
+                  AutoGenerateColumns="False"
+                  MouseDoubleClick="DataGrid_MouseDoubleClick"
+                  EnableRowVirtualization="False">
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                                 Color="{x:Static SystemColors.HighlightColor}" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                                 Color="{x:Static SystemColors.HighlightTextColor}" />
+                <Style TargetType="DataGridRow">
+                    <Setter Property="IsSelected"
+                            Value="{Binding IsSelected}" />
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Schema"
+                                    Binding="{Binding Schema}"
+                                    Width="*" />
+                <DataGridTextColumn Header="Name"
+                                    Binding="{Binding Name}"
+                                    Width="*" />
+                <DataGridTextColumn Header="RowCount"
+                                    Binding="{Binding RowCount}"
+                                    Width="*" />
+                <DataGridTextColumn Header="IsTable"
+                                    Binding="{Binding IsTable}"
+                                    Width="*" />
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+        <DataGrid Grid.Row="1"
+                  Grid.Column="1"
+                  IsReadOnly="True"
+                  ItemsSource="{Binding AnalysisM.DwTableViewList}"
+                  MouseDoubleClick="DataGrid_MouseDoubleClick"
+                  AutoGenerateColumns="False"
+                  EnableRowVirtualization="False">
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                                 Color="{x:Static SystemColors.HighlightColor}" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                                 Color="{x:Static SystemColors.HighlightTextColor}" />
+                <Style TargetType="DataGridRow">
+                    <Setter Property="IsSelected"
+                            Value="{Binding IsSelected}" />
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Schema"
+                                    Binding="{Binding Schema}"
+                                    Width="*" />
+                <DataGridTextColumn Header="Name"
+                                    Binding="{Binding Name}"
+                                    Width="*" />
+                <DataGridTextColumn Header="RowCount"
+                                    Binding="{Binding RowCount}"
+                                    Width="*" />
+                <DataGridTextColumn Header="IsTable"
+                                    Binding="{Binding IsTable}"
+                                    Width="*" />
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="0"
+                    Grid.Column="0"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center">
+            <Label Content="Filter on Name:"
+                   Margin="0,0,0,0" />
+            <TextBox MinWidth="150"
+                     Margin="10,0,0,0"
+                     Text="{Binding FilterString, UpdateSourceTrigger=PropertyChanged}" />
+            <ComboBox Margin="10,0,0,0"
+                      MinWidth="150"
+                      SelectedIndex="{Binding SelectedTableView, UpdateSourceTrigger=PropertyChanged}">
+                <ComboBoxItem Content="Tables and Views" />
+                <ComboBoxItem Content="Tables" />
+                <ComboBoxItem Content="Views" />
+            </ComboBox>
+        </StackPanel>
+        <StackPanel Grid.Row="2"
+                    Grid.Column="0"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center"
+                    FlowDirection="RightToLeft">
+            <Button Content="Use in DW"
+                    Margin="10,0,0,0"
+                    Click="UseInDw_Click" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="2"
+                    Grid.Column="1"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center">
+            <Button Content="Do NOT Use in DW"
+                    Margin="10,0,0,0"
+                    Click="DoNotUseInDw_Click" />
+        </StackPanel>
+        <StackPanel Grid.Row="0"
+                    Grid.Column="1"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center">
+            <CheckBox Content="Rebuild Ds Dw Table Map"
+                      IsChecked="{Binding AnalysisM.DwRebuildDsDwTableMap}" />
+        </StackPanel>
+
+    </Grid>
+</helper:MgaXctkWizardPage>

@@ -1,0 +1,58 @@
+﻿<helper:MgaXctkWizardPage xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:local="clr-namespace:BI_Wizard"
+             xmlns:helper="clr-namespace:BI_Wizard.Helper"
+             xmlns:viewModel="clr-namespace:BI_Wizard.View"
+             xmlns:viewModel1="clr-namespace:BI_Wizard.ViewModel"
+             x:Class="BI_Wizard.View.Page_10_Cb_V"
+             mc:Ignorable="d"
+                          d:DesignHeight="422"
+                          d:DesignWidth="686"
+                          Title="Create cube."
+                          Description="Last step: create cube!">
+    <helper:MgaXctkWizardPage.DataContext>
+        <viewModel1:Page_10_Cb_Vm />
+    </helper:MgaXctkWizardPage.DataContext>
+    <helper:MgaXctkWizardPage.Content>
+    <Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="280" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Column="1"
+                            Grid.Row="7"
+                            Orientation="Horizontal">
+                    <Button Content="Create Cube"
+                            VerticalAlignment="Center"
+                            Width="100"
+                            Click="CreateCube_Click" />
+                    <Button Content="Process Cube"
+                            Margin="10,0,0,0"
+                            VerticalAlignment="Center"
+                            Width="100" Click="ProcessCube_Click" />
+
+                </StackPanel>
+                <Label Content="DataSource Windows User name" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top"/>
+                <Label Content="DataSource Windows Password" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top"/>
+                <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="23" Grid.Row="1" TextWrapping="Wrap" Text="{Binding AnalysisM.DwDsUserName}" VerticalAlignment="Center" Width="200"/>
+                <PasswordBox Grid.Column="1" HorizontalAlignment="Left" Height="23" Grid.Row="2" VerticalAlignment="Center" Width="200" PasswordChanged="PasswordBox_PasswordChanged"/>
+
+            </Grid>
+        </Grid>
+    </helper:MgaXctkWizardPage.Content>
+</helper:MgaXctkWizardPage>

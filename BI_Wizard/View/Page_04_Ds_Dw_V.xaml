@@ -1,0 +1,193 @@
+﻿<helper:MgaXctkWizardPage xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                          xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+                          xmlns:local="clr-namespace:BI_Wizard"
+                          xmlns:helper="clr-namespace:BI_Wizard.Helper"
+                          xmlns:viewModel="clr-namespace:BI_Wizard.ViewModel"
+                          xmlns:model="clr-namespace:BI_Wizard.Model"
+                          x:Class="BI_Wizard.View.Page_04_Ds_Dw_V"
+                          mc:Ignorable="d"
+                          d:DesignHeight="500"
+                          d:DesignWidth="1300"
+                          Title="Map source to data warehouse."
+                          Description="Select columns to be included in data warehouse and their transformation.">
+    <helper:MgaXctkWizardPage.Resources>
+        <viewModel:Page_04_Ds_Dw_Vm x:Key="DataContextPage_04_Ds_Dw_Vm" />
+    </helper:MgaXctkWizardPage.Resources>
+    <helper:MgaXctkWizardPage.DataContext>
+        <StaticResourceExtension ResourceKey="DataContextPage_04_Ds_Dw_Vm" />
+    </helper:MgaXctkWizardPage.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100*" />
+            <ColumnDefinition Width="200*" />
+        </Grid.ColumnDefinitions>
+        <DataGrid Grid.Row="1"
+                  Grid.Column="0"
+                  IsReadOnly="False"
+                  ItemsSource="{Binding AnalysisM.DsDwMap.DsDwTableMapList}"
+                  AutoGenerateColumns="False"
+                  SelectionMode="Single"
+                  SelectedItem="{Binding SelectedDsDwTableMap}"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False">
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                                 Color="{x:Static SystemColors.HighlightColor}" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                                 Color="{x:Static SystemColors.HighlightTextColor}" />
+                <Style TargetType="DataGridRow">
+                    <Setter Property="IsSelected"
+                            Value="{Binding IsSelected}" />
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Ds Schema"
+                                    Binding="{Binding DsSchemaName}"
+                                    Width="*"
+                                    IsReadOnly="True" />
+                <DataGridTextColumn Header="Ds Name"
+                                    Binding="{Binding DsTableName}"
+                                    Width="*"
+                                    IsReadOnly="True" />
+                <DataGridTextColumn Header="Ds IsTable"
+                                    Binding="{Binding DsIsTable}"
+                                    Width="*"
+                                    IsReadOnly="True" />
+                <DataGridTextColumn Header="Dw Schema"
+                                    Binding="{Binding DwSchemaName}"
+                                    Width="*" />
+                <DataGridTextColumn Header="Dw Name"
+                                    Binding="{Binding DwTableName}"
+                                    Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <helper:OneClickDataGrid Grid.Row="1"
+                                 Grid.Column="1"
+                                 IsReadOnly="False"
+                                 ItemsSource="{Binding SelectedDsDwTableMap.DsDwColumnMapList}"
+                                 AutoGenerateColumns="False"
+                                 CanUserAddRows="False"
+                                 SelectionMode="Single"
+                                 CellStyle="{StaticResource IncludeCellStyle}"
+                                 CanUserDeleteRows="False">
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                                 Color="{x:Static SystemColors.HighlightColor}" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                                 Color="{x:Static SystemColors.HighlightTextColor}" />
+                <Style TargetType="DataGridRow">
+                    <Setter Property="IsSelected"
+                            Value="{Binding IsSelected}" />
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Ds Column"
+                                    Binding="{Binding DsColumn.Name}"
+                                    Width="*"
+                                    IsReadOnly="True" />
+                <DataGridTextColumn Header="Ds Type"
+                                    Binding="{Binding DsColumn.DataType}"
+                                    Width="*"
+                                    IsReadOnly="True" />
+
+                <DataGridTemplateColumn Header="Transformation"
+                                        SortMemberPath="Transformation"
+                                        Width="Auto">
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <ComboBox DisplayMemberPath="DisplayName"
+                                      IsSynchronizedWithCurrentItem="False"
+                                      IsEnabled="{Binding IsTransformationEditable, Mode=OneWay}"
+                                      ItemsSource="{helper:EnumToItemsSource {x:Type model:DsDwColumnUserTransformation}}"
+                                      SelectedValue="{Binding Transformation, Mode=TwoWay}"
+                                      SelectedValuePath="Value"
+                                      IsReadOnly="False" />
+
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="3,0,3,0">
+                                <TextBlock.Text>
+                                    <Binding Path="Transformation"
+                                             Mode="OneWay"
+                                             UpdateSourceTrigger="PropertyChanged"></Binding>
+                                </TextBlock.Text></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Dw Column"
+                                    Binding="{Binding DwColumn.Name}"
+                                    Width="*" />
+                <DataGridTextColumn Header="Dw Type"
+                                    Binding="{Binding DwColumn.DataType}"
+                                    Width="*"
+                                    IsReadOnly="True" />
+                <DataGridTextColumn Header="Dw Fk Table"
+                                    Binding="{Binding DwForeignKeyReferencedTable.SchemaTableName}"
+                                    Width="*"
+                                    IsReadOnly="True" />
+
+                <DataGridTemplateColumn Width="*"
+                                        IsReadOnly="False"
+                                        SortMemberPath="Include"
+                                        Header="Include in Dw">
+                    
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding Include, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      Margin="3,3,3,3"
+                                      IsEnabled="{Binding IsIncludeEditable, Mode=OneWay}"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Stretch" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </helper:OneClickDataGrid>
+
+        <StackPanel Grid.Row="0"
+                    Grid.Column="0"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center">
+            <Label Content="Filter on Name:"
+                   Margin="0,0,0,0" />
+            <TextBox MinWidth="150"
+                     Margin="10,0,0,0" />
+        </StackPanel>
+        <StackPanel Grid.Row="0"
+                    Grid.Column="1"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Center">
+            <CheckBox Content="Delete records not matched"
+                      Margin="10,0,0,0"
+                      IsChecked="{Binding SelectedDsDwTableMap.DeleteNotMatched}"
+                      RenderTransformOrigin="0,0"
+                      FontSize="9">
+                <CheckBox.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="1.5"
+                                        ScaleY="1.5" />
+                        <SkewTransform />
+                        <RotateTransform />
+                        <TranslateTransform />
+                    </TransformGroup>
+                </CheckBox.RenderTransform>
+            </CheckBox>
+            <Button Content="Include ALL in Dw"
+                    Margin="80,0,0,0"
+                    Click="IncludeAllDw_Click" />
+            <Button Content="Include NONE in Dw"
+                    Margin="10,0,0,0"
+                    Click="IncludeNone_Click" />
+        </StackPanel>
+    </Grid>
+</helper:MgaXctkWizardPage>

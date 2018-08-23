@@ -1,0 +1,265 @@
+﻿<helper:MgaXctkWizardPage xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                          xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+                          xmlns:local="clr-namespace:BI_Wizard"
+                          xmlns:helper="clr-namespace:BI_Wizard.Helper"
+                          xmlns:viewModel="clr-namespace:BI_Wizard.ViewModel"
+                          xmlns:model="clr-namespace:BI_Wizard.Model"
+                          x:Class="BI_Wizard.View.Page_09_Cb_V"
+                          mc:Ignorable="d"
+                          d:DesignWidth="715"
+                          d:DesignHeight="336"
+                          Title="Data warehouse to cube mapping."
+                          Description="Select data warehouse tables and columns to use for dimensions and measure groups in the cube.">
+    <helper:MgaXctkWizardPage.DataContext>
+        <viewModel:Page_09_Cb_Vm />
+    </helper:MgaXctkWizardPage.DataContext>
+    <helper:MgaXctkWizardPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="50*" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="50*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30*" />
+                <ColumnDefinition Width="60*" />
+            </Grid.ColumnDefinitions>
+
+            <helper:OneClickDataGrid Grid.Row="1"
+                                     Grid.Column="0"
+                                     IsReadOnly="False"
+                                     ItemsSource="{Binding AnalysisM.DwCbMap.DimensionList.AList}"
+                                     SelectedItem="{Binding SelectedDwCbDimensionMap}"
+                                     AutoGenerateColumns="False"
+                                     CanUserAddRows="False"
+                                     SelectionMode="Single"
+                                     CellStyle="{StaticResource IncludeCellStyle}"
+                                     CanUserDeleteRows="False">
+                <DataGrid.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                                     Color="{x:Static SystemColors.HighlightColor}" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                                     Color="{x:Static SystemColors.HighlightTextColor}" />
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="IsSelected"
+                                Value="{Binding IsSelected}" />
+                    </Style>
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Dw Name"
+                                        Binding="{Binding ReferenceToDsDwTableMap.DwSchemaTableName}"
+                                        Width="*"
+                                        IsReadOnly="true" />
+                    <DataGridTextColumn Header="Cb Name"
+                                        Binding="{Binding Name}"
+                                        Width="*"
+                                        IsReadOnly="False" />
+                    <DataGridTemplateColumn Width="*"
+                                            IsReadOnly="False"
+                                            SortMemberPath="Include"
+                                            Header="Include in Cube">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Include, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          Margin="3,3,3,3"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Stretch" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </helper:OneClickDataGrid>
+
+            <helper:OneClickDataGrid Grid.Row="3"
+                                     Grid.Column="0"
+                                     IsReadOnly="False"
+                                     ItemsSource="{Binding AnalysisM.DwCbMap.MeasureGroupList.AList}"
+                                     SelectedItem="{Binding SelectedDwCbMeasureGroupMap}"
+                                     AutoGenerateColumns="False"
+                                     CanUserAddRows="False"
+                                     SelectionMode="Single"
+                                     CellStyle="{StaticResource IncludeCellStyle}"
+                                     CanUserDeleteRows="False">
+                <DataGrid.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                                     Color="{x:Static SystemColors.HighlightColor}" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                                     Color="{x:Static SystemColors.HighlightTextColor}" />
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="IsSelected"
+                                Value="{Binding IsSelected}" />
+                    </Style>
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Dw Name"
+                                        Binding="{Binding ReferenceToDsDwTableMap.DwSchemaTableName}"
+                                        Width="*"
+                                        IsReadOnly="true" />
+                    <DataGridTextColumn Header="Cb Name"
+                                        Binding="{Binding Name}"
+                                        Width="*"
+                                        IsReadOnly="False" />
+                    <DataGridTemplateColumn Width="*"
+                                            IsReadOnly="False"
+                                            SortMemberPath="Include"
+                                            Header="Include in Cube">
+
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Include, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          Margin="3,3,3,3"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Stretch" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </helper:OneClickDataGrid>
+
+            <helper:OneClickDataGrid Grid.Row="1"
+                                     Grid.Column="1"
+                                     IsReadOnly="False"
+                                     ItemsSource="{Binding SelectedDwCbDimensionMap.AttributeList}"
+                                     AutoGenerateColumns="False"
+                                     CanUserAddRows="False"
+                                     SelectionMode="Single"
+                                     CellStyle="{StaticResource IncludeCellStyle}"
+                                     CanUserDeleteRows="False">
+                <DataGrid.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                                     Color="{x:Static SystemColors.HighlightColor}" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                                     Color="{x:Static SystemColors.HighlightTextColor}" />
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="IsSelected"
+                                Value="{Binding IsSelected}" />
+                    </Style>
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Dw Name"
+                                        Binding="{Binding ReferenceToDsDwColumnMap.DwColumn.Name}"
+                                        Width="*"
+                                        IsReadOnly="true" />
+                    <DataGridTextColumn Header="Dw DataType"
+                                        SortMemberPath="ReferenceToDsDwColumnMap.DwColumn.DataType.Name"
+                                        Binding="{Binding ReferenceToDsDwColumnMap.DwColumn.DataType}"
+                                        Width="*"
+                                        IsReadOnly="true" />
+                    <DataGridTextColumn Header="Cb Name"
+                                        Binding="{Binding Name}"
+                                        Width="*"
+                                        IsReadOnly="False" />
+                    <DataGridTextColumn Header="Cb Usage"
+                                        Binding="{Binding Usage}"
+                                        Width="*"
+                                        IsReadOnly="true" />
+                    <DataGridCheckBoxColumn Header="Cb Visible"
+                                        Binding="{Binding AttributeHierarchyVisible}"
+                                        Width="*"
+                                        IsReadOnly="false" />
+
+                    <DataGridTemplateColumn Width="*"
+                                            IsReadOnly="False"
+                                            SortMemberPath="Include"
+                                            Header="Include in Cube">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Include, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          IsEnabled="{Binding IsIncludeEditable, Mode=OneWay}"
+                                          Margin="3,3,3,3"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Stretch" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </helper:OneClickDataGrid>
+
+            <helper:OneClickDataGrid Grid.Row="3"
+                                     Grid.Column="1"
+                                     IsReadOnly="False"
+                                     ItemsSource="{Binding SelectedDwCbMeasureGroupMap.MeasureList}"
+                                     AutoGenerateColumns="False"
+                                     CanUserAddRows="False"
+                                     SelectionMode="Single"
+                                     CellStyle="{StaticResource IncludeCellStyle}"
+                                     CanUserDeleteRows="False">
+                <DataGrid.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                                     Color="{x:Static SystemColors.HighlightColor}" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}"
+                                     Color="{x:Static SystemColors.HighlightTextColor}" />
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="IsSelected"
+                                Value="{Binding IsSelected}" />
+                    </Style>
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Dw Name"
+                                        Binding="{Binding ReferenceToDsDwColumnMap.DwColumn.Name}"
+                                        Width="*"
+                                        IsReadOnly="true" />
+                    <DataGridTextColumn Header="Dw DataType"
+                                        SortMemberPath="ReferenceToDsDwColumnMap.DwColumn.DataType.Name"
+                                        Binding="{Binding ReferenceToDsDwColumnMap.DwColumn.DataType}"
+                                        Width="*"
+                                        IsReadOnly="true" />
+                    <DataGridTextColumn Header="Cb Name"
+                                        Binding="{Binding Name}"
+                                        Width="*"
+                                        IsReadOnly="False" />
+                    <DataGridTemplateColumn Width="*"
+                                            IsReadOnly="False"
+                                            SortMemberPath="Include"
+                                            Header="Include in Cube">
+
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Include, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          IsEnabled="{Binding IsIncludeEditable, Mode=OneWay}"
+                                          Margin="3,3,3,3"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Stretch" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </helper:OneClickDataGrid>
+
+            <StackPanel Orientation="Horizontal"
+                        Grid.Row="0"
+                        Grid.Column="0">
+                <Label VerticalAlignment="Center"
+                       Margin="0,0,10,0"
+                       Content="Dimensions based on Dw tables" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        Grid.Row="0"
+                        Grid.Column="1">
+                <Label VerticalAlignment="Center"
+                       Margin="0,0,10,0"
+                       Content="Dimension attributes" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                        Grid.Row="2"
+                        Grid.Column="0">
+                <Label VerticalAlignment="Center"
+                       Margin="0,0,10,0"
+                       Content="Measure Groups based on Dw tables" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal"
+                        Grid.Row="2"
+                        Grid.Column="1">
+                <Label VerticalAlignment="Center"
+                       Margin="0,0,10,0"
+                       Content="Measures" />
+            </StackPanel>
+
+        </Grid>
+    </helper:MgaXctkWizardPage.Content>
+</helper:MgaXctkWizardPage>

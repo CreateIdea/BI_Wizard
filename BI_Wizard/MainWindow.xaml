@@ -1,0 +1,91 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:local="clr-namespace:BI_Wizard"
+        xmlns:helper="clr-namespace:BI_Wizard.Helper"
+        xmlns:view="clr-namespace:BI_Wizard.View"
+        x:Class="BI_Wizard.MainWindow"
+        Title="MainWindow"
+        Height="900"
+        Width="908"
+        WindowStyle="ThreeDBorderWindow"
+        WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <local:MainWindow_VM />
+    </Window.DataContext>
+
+    <DockPanel LastChildFill="True">
+        <Menu DockPanel.Dock="Top"
+              HorizontalAlignment="Left"
+              Background="White">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New"
+                          Click="MenuItemNew_Click" />
+                <MenuItem Header="_Open"
+                          Click="MenuItemOpen_Click" />
+                <MenuItem Header="_Save"
+                          Click="MenuItemSave_Click" />
+                <MenuItem Header="Save _As"
+                          Click="MenuItemSaveAs_Click" />
+                <MenuItem Header="_Exit"
+                          Click="MenuItemExit_Click" />
+            </MenuItem>
+        </Menu>
+        <StatusBar Name="StatusBarMain"
+                   DockPanel.Dock="Bottom"
+                   VerticalAlignment="Bottom"
+                   Background="Beige">
+            <StatusBarItem>
+                <TextBlock Text="{Binding AppM.LoadedProjectFileName}">
+                </TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50*"
+                               MinHeight="100" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="50*"
+                               MinHeight="100" />
+            </Grid.RowDefinitions>
+            <GridSplitter Grid.Column="0"
+                          Grid.Row="1"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          ResizeDirection="Rows" />
+            <TextBox x:Name="tbLog"
+                     Grid.Row="2"
+                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     ScrollViewer.CanContentScroll="True"
+                     Grid.Column="0"
+                     Text="{Binding AppM.AnalysisM.LogStrings, Mode=OneWay}"
+                     IsReadOnly="True"
+                     IsReadOnlyCaretVisible="True"
+                     FontFamily="Courier New"
+                     TextChanged="tbLog_TextChanged" />
+
+            <helper:MgaXctkWizard  x:Name="WizardMain"
+                                   Grid.Row="0"
+                                   Grid.Column="0"
+                                   ExteriorPanelMinWidth="0"
+                                   HelpButtonVisibility="Collapsed"
+                                   Next="WizardMain_Next">
+                <view:Page_01_Ds_V x:Name="Page01DsV" />
+                <view:Page_02_Dw_V x:Name="Page02DwV" />
+                <view:Page_03_Ds_V x:Name="Page03DsV" />
+                <view:Page_04_Ds_Dw_V x:Name="Page04DsDwV" />
+                <view:Page_05_Dw_V x:Name="Page05DwV" />
+                <view:Page_06_Dw_V x:Name="Page06DwV" />
+                <view:Page_08_Cb_V x:Name="Page08CbV" />
+                <view:Page_09_Cb_V x:Name="Page09CbV" />
+                <view:Page_10_Cb_V x:Name="Page10CbV" />
+            </helper:MgaXctkWizard>
+
+        </Grid>
+    </DockPanel>
+</Window>
