@@ -7,10 +7,15 @@ Microsoft® SQL Server® 2016 Service Pack 2 Feature Pack:
 https://www.microsoft.com/en-us/download/details.aspx?id=56833
 	
 ENU\x64\SQL_AS_ADOMD.msi
+
 ENU\x64\SQL_AS_AMO.msi
+
 ENU\x64\SqlDom.msi
+
 ENU\x64\SQLSysClrTypes.msi
+
 ENU\x64\TSqlLanguageService.msi
+
 ENU\x64\SharedManagementObjects.msi
 
 Short demo on how it works:
